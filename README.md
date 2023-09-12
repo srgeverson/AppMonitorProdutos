@@ -13,6 +13,21 @@ Além disto é bom ter um editor para trabalhar com o código como [VSCode](http
 # Criando o projeto [React Native](https://reactnative.dev/docs/environment-setup).
 $ npx react-native@latest init AppMonitorProdutos
 
+# Criando projeto no git
+$ git init
+
+# Adicionando arquivos criados
+$ git add .
+
+# Commitando arquivos adicionados
+$ git commit -m "initial commit"
+
+# Vinculando o repositório remoto ao git local
+$ git remote add origin https://github.com/srgeverson/AppMonitorProdutos.git
+
+# Enviando arquivos commitados
+$ git push -u origin main
+
 # Start Metro
 $ npm start
 
