@@ -48,13 +48,23 @@ const Acompanhamento = ({ route, navigation }) => {
         carregarDados();
     }, []);
 
-    const carregarDados = () => {
-        const coresSalvas = servide.listarCores();
-        if (coresSalvas)
-            setCores(coresSalvas);
-        const artigosSalvos = servide.listarArtigos();
-        if (artigosSalvos)
-            setArtigos(artigosSalvos);
+    const carregarDados = async () => {
+        try {
+            setCarregando(true);
+            const coresSalvas = servide.listarCores();
+            if (coresSalvas)
+                setCores(coresSalvas);
+            const artigosSalvos = servide.listarArtigos();
+            if (artigosSalvos)
+                setArtigos(artigosSalvos);
+            const itensTemp = await servide.buscarAcompanhamentoTemp();
+            if (itensTemp)
+                setItens(itensTemp);
+        } catch (error) {
+            console.log(error)
+        } finally {
+            setCarregando(false);
+        }
     }
 
     return (
