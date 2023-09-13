@@ -1,13 +1,13 @@
 import React from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  Text,
-  View,
-} from 'react-native';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 import Rotas from '../../../core/Routes';
 
-const App = () => <Rotas />
+const App = () => {
+  return (
+    <SafeAreaProvider>
+      <Rotas />
+    </SafeAreaProvider>
+  )
+}
 
 export default App;

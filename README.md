@@ -54,11 +54,17 @@ $ npm start
 # Executando App no Android.
 $ npm run android
 
-#
+# [React Navigation](https://reactnavigation.org/)
 $ npm install @react-navigation/native @react-navigation/native-stack
-
-#
 $ npm install react-native-screens react-native-safe-area-context
+
+# [React Native Elements](https://reactnativeelements.com/)
+$ npm install @rneui/themed @rneui/base
+$ npm install @rneui/base@edge @rneui/themed@edge
+
+# [React Native Iector Icons](https://github.com/oblador/react-native-vector-icons)
+$ npm install react-native-vector-icons
+$ npx react-native link react-native-vector-icons
 
 ```
 

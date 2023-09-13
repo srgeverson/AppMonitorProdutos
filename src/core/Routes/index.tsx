@@ -12,10 +12,29 @@ import Acompanhamentos from "../../views/pages/Produtos/Acompanhamentos";
 const Rotas = () => {
     return (
         <NavigationContainer>
-            <Stack.Navigator>
-                <Stack.Screen name={rotas.paginaInicial} component={Home} />
-                <Stack.Screen name={rotas.produtoAcompanhamento} component={Acompanhamento} />
-                <Stack.Screen name={rotas.produtoAcompanhamentos} component={Acompanhamentos} />
+            <Stack.Navigator
+                initialRouteName="Home"
+                screenOptions={{
+                    headerTitleAlign: 'center',
+                    headerTintColor: 'white',
+                    headerStyle: { backgroundColor: 'tomato' },
+                }}
+            >
+                <Stack.Screen name={rotas.paginaInicial} component={Home}
+                    options={{
+                        title: 'Página Inicial',
+                    }}
+                />
+                <Stack.Screen name={rotas.produtoAcompanhamento} component={Acompanhamento} 
+                 options={{
+                        title: 'Conferência',
+                    }}
+                />
+                <Stack.Screen name={rotas.produtoAcompanhamentos} component={Acompanhamentos} 
+                 options={{
+                        title: 'Conferências',
+                    }}
+                />
             </Stack.Navigator>
         </NavigationContainer>
     )
