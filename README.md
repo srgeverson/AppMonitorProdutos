@@ -62,9 +62,15 @@ $ npm install react-native-screens react-native-safe-area-context
 $ npm install @rneui/themed @rneui/base
 $ npm install @rneui/base@edge @rneui/themed@edge
 
-# [React Native Iector Icons](https://github.com/oblador/react-native-vector-icons)
+# [React Native Vector Icons](https://github.com/oblador/react-native-vector-icons)
 $ npm install react-native-vector-icons
 $ npx react-native link react-native-vector-icons
+
+# [React Native Element Dropdown](https://www.npmjs.com/package/react-native-element-dropdown)
+$ npm install react-native-element-dropdown --save
+
+# [Async Storage](https://react-native-async-storage.github.io/async-storage/)
+$ npm install @react-native-async-storage/async-storage
 
 ```
 

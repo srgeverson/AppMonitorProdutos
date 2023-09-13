@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { FlatList, SafeAreaView, StatusBar, StyleSheet, Text, View } from "react-native";
 import {
     ListItem,
@@ -12,11 +12,12 @@ import {
 } from '@rneui/themed';
 import { useNavigation } from "@react-navigation/native";
 import { rotas } from "../../../../core/Config";
+import ProdutoService from "../../../../service/Produto";
 
 type ItemProps = { id: string, nome: string, subTitulo: string, quantidade: number | undefined, subQuantidade: number | undefined, ir: Function };
 
 const Item = ({ id, nome, subTitulo, quantidade, subQuantidade, ir }: ItemProps) => (
-    
+
     <ListItem key={id}
         bottomDivider
         onPress={ir}
@@ -37,47 +38,22 @@ const Item = ({ id, nome, subTitulo, quantidade, subQuantidade, ir }: ItemProps)
     </ListItem>
 );
 
-const DATA = [
-    {
-        id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-        name: 'Amy Farha',
-        avatar_url: 'https://uifaces.co/our-content/donated/XdLjsJX_.jpg',
-        subtitle: 'Vice President',
-        linearGradientColors: ['#FF9800', '#F44336'],
-        quantidade: 10,
-        subQuantidade: 20,
-        data: new Date(),
-        quantidadeArtigo: 10
-    },
-    {
-        id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28bb',
-        name: 'Chris Jackson',
-        avatar_url: 'https://uifaces.co/our-content/donated/KtCFjlD4.jpg',
-        subtitle: 'Vice Chairman',
-        linearGradientColors: ['#3F51B5', '#2196F3'],
-        quantidade: 1000,
-        subQuantidade: 2000,
-        data: new Date(),
-        quantidadeArtigo: 10
-    },
-    {
-        id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28bc',
-        name: 'Amanda Martin',
-        avatar_url: 'https://images.unsplash.com/photo-1498529605908-f357a9af7bf5?ixlib=rb-0.3.5&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&s=047fade70e80ebb22ac8f09c04872c40',
-        subtitle: 'CEO',
-        linearGradientColors: ['#FFD600', '#FF9800'],
-        quantidade: 100,
-        subQuantidade: 200,
-        data: new Date(),
-        quantidadeArtigo: 10
-    }
-];
 const Acompanhamento = () => {
     const irPara = useNavigation();
+    const service = new ProdutoService();
+    const [itens, setItens] = useState([]);
+    const buscandoItensSalvos = async () => {
+        const itensSalvos = await service.buscarAcompanhamentos();
+        if (itensSalvos)
+            setItens(itensSalvos);
+    }
+    useEffect(() => {
+        buscandoItensSalvos();
+    }, [])
     return (
         <SafeAreaView style={styles.container}>
             <FlatList
-                data={DATA}
+                data={itens}
                 renderItem={({ item }) => <Item
                     id={item.id}
                     nome={item.quantidadeArtigo.toString()}
