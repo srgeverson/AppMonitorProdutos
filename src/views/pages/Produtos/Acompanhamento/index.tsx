@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { StyleSheet, SafeAreaView, StatusBar, FlatList, View } from 'react-native';
-import { ListItem, Icon, Input,Button } from '@rneui/themed';
+import { ListItem, Icon, Input, Button } from '@rneui/themed';
 import { rotas } from "../../../../core/Config";
 import { useNavigation } from "@react-navigation/native";
+import { Dropdown } from 'react-native-element-dropdown';
+import ProdutoService from "../../../../service/Produto";
 
 type ItemProps = { id: string, nome: string, subTitulo: string, quantidade: number | undefined, subQuantidade: number | undefined, ir: Function };
 
@@ -33,23 +35,97 @@ const Acompanhamento = ({ route, navigation }) => {
     const [quantidade, setQuantidade] = useState(undefined);
     const [carregando, setCarregando] = useState(false);
     const [itens, setItens] = useState([]);
+    const [cores, setCores] = useState([]);
+    const [cor, setCor] = useState(null);
+    const [artigos, setArtigos] = useState([]);
+    const [artigo, setArtigo] = useState(null);
+    const [isFocus, setIsFocus] = useState(false);
+    const servide = new ProdutoService();
+
     useEffect(() => {
         if (route && route.params)
             setId(route.params);
+        carregarDados();
     }, []);
-    
+
+    const carregarDados = () => {
+        const coresSalvas = servide.listarCores();
+        if (coresSalvas)
+            setCores(coresSalvas);
+        const artigosSalvos = servide.listarArtigos();
+        if (artigosSalvos)
+            setArtigos(artigosSalvos);
+    }
+
     return (
-    
+
         <SafeAreaView style={styles.container}>
             <View>
-                <Input
-                    placeholder='Quantidade'
-                    errorStyle={{ color: 'red' }}
-                    errorMessage={quantidade ? '' : '*Informe uma quantidade'}
-                    onChange={setQuantidade}
-                    keyboardType="number-pad"
-                />
-                <Button title="Adicionar" type="solid" loading={carregando}/>
+                <View style={styles.drops}>
+                    <Dropdown
+                        style={[styles.dropdown, isFocus && { borderColor: 'blue' }]}
+                        placeholderStyle={styles.placeholderStyle}
+                        selectedTextStyle={styles.selectedTextStyle}
+                        inputSearchStyle={styles.inputSearchStyle}
+                        iconStyle={styles.iconStyle}
+                        data={cores}
+                        search
+                        maxHeight={300}
+                        labelField="label"
+                        valueField="value"
+                        placeholder={!isFocus ? 'Selecione uma cor' : '...'}
+                        searchPlaceholder="Pesquisar..."
+                        value={cor}
+                        onFocus={() => setIsFocus(true)}
+                        onBlur={() => setIsFocus(false)}
+                        onChange={item => {
+                            setCor(item.value);
+                            setIsFocus(false);
+                        }}
+                        renderLeftIcon={() => (
+                            <Icon name="check" type="font-awesome" size={20} color={isFocus ? 'blue' : 'black'} />
+                        )}
+                    />
+                </View>
+                <View style={styles.drops}>
+                    <Dropdown
+                        style={[styles.dropdown, isFocus && { borderColor: 'blue' }]}
+                        placeholderStyle={styles.placeholderStyle}
+                        selectedTextStyle={styles.selectedTextStyle}
+                        inputSearchStyle={styles.inputSearchStyle}
+                        iconStyle={styles.iconStyle}
+                        data={artigos}
+                        search
+                        maxHeight={300}
+                        labelField="label"
+                        valueField="value"
+                        placeholder={!isFocus ? 'Selecione um artigo' : '...'}
+                        searchPlaceholder="Pesquisar..."
+                        value={artigo}
+                        onFocus={() => setIsFocus(true)}
+                        onBlur={() => setIsFocus(false)}
+                        onChange={item => {
+                            setArtigo(item.value);
+                            setIsFocus(false);
+                        }}
+                        renderLeftIcon={() => (
+                            <Icon name="check" type="font-awesome" size={20} color={isFocus ? 'blue' : 'black'} />
+                        )}
+                    />
+                </View>
+                <View style={styles.drops}>
+                    <Input
+                        placeholder='Quantidade'
+                        errorStyle={{ color: 'red' }}
+                        errorMessage={quantidade ? '' : '*Informe uma quantidade'}
+                        onChange={setQuantidade}
+                        keyboardType="number-pad"
+                    />
+                </View>
+                <View style={styles.drops}>
+                    <Button title="Adicionar" type="solid" loading={carregando} />
+                </View>
+
             </View>
             <FlatList
                 data={itens}
@@ -87,7 +163,42 @@ const styles = StyleSheet.create({
     name: {
         fontSize: 16,
         marginTop: 5,
+    }, dropdown: {
+        height: 50,
+        borderColor: 'gray',
+        borderWidth: 0.5,
+        borderRadius: 8,
+        paddingHorizontal: 8,
     },
+    icon: {
+        marginRight: 5,
+    },
+    label: {
+        position: 'absolute',
+        backgroundColor: 'white',
+        left: 22,
+        top: 8,
+        zIndex: 999,
+        paddingHorizontal: 8,
+        fontSize: 14,
+    },
+    placeholderStyle: {
+        fontSize: 16,
+    },
+    selectedTextStyle: {
+        fontSize: 16,
+    },
+    iconStyle: {
+        width: 20,
+        height: 20,
+    },
+    inputSearchStyle: {
+        height: 40,
+        fontSize: 16,
+    },
+    drops: {
+        margin: 5
+    }
 });
 
 export default Acompanhamento;
