@@ -12,7 +12,7 @@ import {
 } from '@rneui/themed';
 import { useNavigation } from "@react-navigation/native";
 import { rotas } from "../../../../core/Config";
-import ProdutoService from "../../../../service/Produto";
+import AcompanhamentoService from "../../../../domain/service/AcompanhamentoService";
 
 type ItemProps = { id: string, nome: string, subTitulo: string, quantidade: number | undefined, subQuantidade: number | undefined, ir: Function };
 
@@ -40,10 +40,10 @@ const Item = ({ id, nome, subTitulo, quantidade, subQuantidade, ir }: ItemProps)
 
 const Acompanhamento = () => {
     const irPara = useNavigation();
-    const service = new ProdutoService();
+    const service = new AcompanhamentoService();
     const [itens, setItens] = useState([]);
     const buscandoItensSalvos = async () => {
-        const itensSalvos = await service.buscarAcompanhamentos();
+        const itensSalvos = await service.buscarTodos();
         if (itensSalvos)
             setItens(itensSalvos);
     }
@@ -57,9 +57,9 @@ const Acompanhamento = () => {
                 renderItem={({ item }) => <Item
                     id={item.id}
                     nome={item.quantidadeArtigo.toString()}
-                    subTitulo={item.data.toLocaleString([], { weekday: 'short', year: 'numeric', month: 'long', day: 'numeric' })}
-                    quantidade={item.quantidade}
-                    subQuantidade={item.subQuantidade}
+                    subTitulo={new Date(JSON.parse(item.data)).toLocaleString([], { weekday: 'short', year: 'numeric', month: 'long', day: 'numeric' })}
+                    quantidade={item.quantidadeCores}
+                    subQuantidade={item.quantidadeArtigo}
                     ir={() => irPara.navigate(rotas.produtoAcompanhamento as never, { id: item.id })}
                 />}
                 keyExtractor={item => item.id}

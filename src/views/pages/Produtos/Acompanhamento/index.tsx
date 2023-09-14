@@ -5,6 +5,8 @@ import { rotas } from "../../../../core/Config";
 import { useNavigation } from "@react-navigation/native";
 import { Dropdown } from 'react-native-element-dropdown';
 import ProdutoService from "../../../../service/Produto";
+import CorService from "../../../../domain/service/CorService";
+import ArtigoService from "../../../../domain/service/ArtigoService";
 
 type ItemProps = { id: string, nome: string, subTitulo: string, quantidade: number | undefined, subQuantidade: number | undefined, ir: Function };
 
@@ -41,6 +43,8 @@ const Acompanhamento = ({ route, navigation }) => {
     const [artigo, setArtigo] = useState(null);
     const [isFocus, setIsFocus] = useState(false);
     const servide = new ProdutoService();
+    const corService =  new CorService();
+    const artigoService = new ArtigoService();
 
     useEffect(() => {
         if (route && route.params)
@@ -51,15 +55,17 @@ const Acompanhamento = ({ route, navigation }) => {
     const carregarDados = async () => {
         try {
             setCarregando(true);
-            const coresSalvas = servide.listarCores();
+            const coresSalvas = await corService.buscarTodos();
+            console.log(coresSalvas)
             if (coresSalvas)
                 setCores(coresSalvas);
-            const artigosSalvos = servide.listarArtigos();
+            const artigosSalvos = await artigoService.buscarTodos();
             if (artigosSalvos)
                 setArtigos(artigosSalvos);
             const itensTemp = await servide.buscarAcompanhamentoTemp();
             if (itensTemp)
                 setItens(itensTemp);
+
         } catch (error) {
             console.log(error)
         } finally {
@@ -81,15 +87,15 @@ const Acompanhamento = ({ route, navigation }) => {
                         data={cores}
                         search
                         maxHeight={300}
-                        labelField="label"
-                        valueField="value"
+                        labelField="nome"
+                        valueField="id"
                         placeholder={!isFocus ? 'Selecione uma cor' : '...'}
                         searchPlaceholder="Pesquisar..."
                         value={cor}
                         onFocus={() => setIsFocus(true)}
                         onBlur={() => setIsFocus(false)}
                         onChange={item => {
-                            setCor(item.value);
+                            setCor(item.id);
                             setIsFocus(false);
                         }}
                         renderLeftIcon={() => (
@@ -107,15 +113,15 @@ const Acompanhamento = ({ route, navigation }) => {
                         data={artigos}
                         search
                         maxHeight={300}
-                        labelField="label"
-                        valueField="value"
+                        labelField="nome"
+                        valueField="id"
                         placeholder={!isFocus ? 'Selecione um artigo' : '...'}
                         searchPlaceholder="Pesquisar..."
                         value={artigo}
                         onFocus={() => setIsFocus(true)}
                         onBlur={() => setIsFocus(false)}
                         onChange={item => {
-                            setArtigo(item.value);
+                            setArtigo(item.id);
                             setIsFocus(false);
                         }}
                         renderLeftIcon={() => (

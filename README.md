@@ -72,6 +72,9 @@ $ npm install react-native-element-dropdown --save
 # [Async Storage](https://react-native-async-storage.github.io/async-storage/)
 $ npm install @react-native-async-storage/async-storage
 
+# [React Native SQLite Storage](https://www.npmjs.com/package/react-native-sqlite-storage)
+$ npm install react-native-sqlite-storage --save
+
 ```
 
 ## 👨‍💻 Equipe de Desenvolvimento
