@@ -6,6 +6,49 @@ export default class AcompanhamentoService {
         this.acompanhamentoDAO = new AcompanhamentoDAO();
     }
 
+    async atualizarRegistroInserido(id) {
+        try {
+            const existeItem = await this.acompanhamentoDAO.selectWithJoinById(id);
+            let data = null;
+            let quantidadeCores = 0;
+            let quantidadeArtigo = 0;
+            let quantidadePecas = 0;
+            if (existeItem.rows && existeItem.rows.raw()) {
+                existeItem.rows.raw().forEach((item) => {
+                    data = item.data;
+                    quantidadePecas += item.quantidade;
+                });
+                const agruparPorCor = this.groupBy(existeItem.rows.raw(), 'corId');
+                for (key in agruparPorCor)
+                    if (agruparPorCor.hasOwnProperty(key))
+                        quantidadeCores++;
+                const agruparPorArtigo = this.groupBy(existeItem.rows.raw(), 'artigoId');
+                for (key in agruparPorArtigo)
+                    if (agruparPorArtigo.hasOwnProperty(key))
+                        quantidadeArtigo++;
+            }
+            const objetoAtualizado = {
+                id,
+                data,
+                quantidadeCores,
+                quantidadeArtigo,
+                quantidadePecas,
+            };
+            // console.log(objetoAtualizado);
+            await this.acompanhamentoDAO.updateById(objetoAtualizado);
+            return objetoAtualizado;
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    groupBy(array, key) {
+        return array.reduce((hash, obj) => {
+            if (obj[key] === undefined) return hash;
+            return Object.assign(hash, { [obj[key]]: (hash[obj[key]] || []).concat(obj) })
+        }, {})
+    }
+
     async buscarTodos() {
         try {
             const lista = await this.acompanhamentoDAO.selectAll();

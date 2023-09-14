@@ -96,28 +96,6 @@ export const Tables = {
             default_value: null,
         }
     },
-    produtos: {
-        id: {
-            type: SupportedTypes.INTEGER,
-            primary_key: true,
-            default_value: null,
-        },
-        nome: {
-            type: SupportedTypes.TEXT,
-            primary_key: false,
-            default_value: null,
-        },
-        artigoId: {
-            type: SupportedTypes.INTEGER,
-            primary_key: false,
-            default_value: null,
-        },
-        corId: {
-            type: SupportedTypes.INTEGER,
-            primary_key: false,
-            default_value: null,
-        },
-    },
     cores: {
         id: {
             type: SupportedTypes.INTEGER,

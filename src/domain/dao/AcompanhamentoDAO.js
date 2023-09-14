@@ -59,6 +59,23 @@ export default class AcompanhamentoDAO {
         });
     }
 
+    selectWithJoinById(id) {
+        return new Promise((resolve, reject) => {
+            SQLiteManager.select(`
+            SELECT ac.*, c.nome AS cor, ar.nome AS artigo, ap.corId, ap.artigoId, ap.quantidade FROM acompanhamentos AS ac 
+            INNER JOIN cores AS c ON c.id = ap.corId 
+            INNER JOIN artigos AS ar ON ar.id = ap.artigoId 
+            INNER JOIN acompanhamentoProdutos AS ap ON ap.acompanhamentoId = ac.id
+            WHERE ac.id = ? ;`, [id])
+                .then((success) => {
+                    resolve(success);
+                })
+                .catch((error) => {
+                    reject(error);
+                });
+        });
+    }
+    
     selectById(id) {
         return new Promise((resolve, reject) => {
             SQLiteManager.select(`SELECT * FROM acompanhamentos WHERE id = ?;`, [id])
@@ -83,9 +100,16 @@ export default class AcompanhamentoDAO {
         });
     }
 
-    updateById(cidade) {
+    updateById(objeto) {
         return new Promise((resolve, reject) => {
-            Database.update(`UPDATE acompanhamentos SET nome = ? WHERE (id = ?);`, [cidade.nome, cidade.id])
+            SQLiteManager.update(`UPDATE acompanhamentos SET data = ?, quantidadeCores = ?, quantidadeArtigo = ?, quantidadePecas = ? WHERE (id = ?);`,
+                [
+                    objeto.data,
+                    objeto.quantidadeCores,
+                    objeto.quantidadeArtigo,
+                    objeto.quantidadePecas,
+                    objeto.id,
+                ])
                 .then((success) => {
                     resolve(success);
                 })

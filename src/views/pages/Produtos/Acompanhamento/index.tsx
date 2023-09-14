@@ -29,7 +29,6 @@ const Item = ({ id, artigo, cor, quantidade }: ItemProps) => (
 );
 
 const Acompanhamento = ({ route, navigation }) => {
-    //const [id, setId] = useState('');
     const [quantidade, setQuantidade] = useState(undefined);
     const [carregando, setCarregando] = useState(false);
     const [itens, setItens] = useState([]);
@@ -46,6 +45,9 @@ const Acompanhamento = ({ route, navigation }) => {
     const [open, setOpen] = React.useState(false);
     useEffect(() => {
         carregarDados();
+        return () => {
+            atualizarRegistro();
+        }
     }, [id]);
 
     const carregarDados = async () => {
@@ -57,6 +59,11 @@ const Acompanhamento = ({ route, navigation }) => {
             const artigosSalvos = await artigoService.buscarTodos();
             if (artigosSalvos)
                 setArtigos(artigosSalvos);
+            if (id) {
+                const itensLocal = await acompanhamentoProdutoService.buscarTodosPorIdAcompanhamento(id);
+                setItens(itensLocal);
+            }
+
         } catch (error) {
             console.log(error);
         } finally {
@@ -85,6 +92,10 @@ const Acompanhamento = ({ route, navigation }) => {
         } finally {
             setCarregando(false);
         }
+    }
+
+    const atualizarRegistro = async () => {
+        await acompanhamentoService.atualizarRegistroInserido(id);
     }
     return (
 
@@ -188,7 +199,9 @@ const Acompanhamento = ({ route, navigation }) => {
                 <SpeedDial.Action
                     icon={<Icon name="whatsapp" type="font-awesome" color="#fff" />}
                     title="Compartilhar"
-                    onPress={() => Alert.alert('Não implentado!')}
+                    onPress={() => {
+                        Alert.alert('Não implentado!');
+                    }}
                 />
             </SpeedDial>
         </SafeAreaView>

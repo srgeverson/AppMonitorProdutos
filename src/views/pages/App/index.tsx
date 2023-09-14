@@ -10,9 +10,9 @@ const App = () => {
   }, [])
 
   const iniciarDB = async () => {
-    // await SQLiteManager.dropDatabase();
+     //await SQLiteManager.dropDatabase();
     await SQLiteManager.initDB();
-    //await SQLiteManager.fakeData();
+    await SQLiteManager.fakeData();
   }
 
   return (

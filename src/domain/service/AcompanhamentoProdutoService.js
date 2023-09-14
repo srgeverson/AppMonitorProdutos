@@ -36,23 +36,6 @@ export default class AcompanhamentoProdutoService {
         }
     }
 
-    async dadosFake() {
-        try {
-            const ultimoId = await this.buscarUltimoId();
-            let id = ultimoId + 1;
-            const salvar = {
-                id: id,
-                quantidadeCores: 10,
-                quantidadeArtigo: 100,
-                quantidadePecas: 1000,
-                data: new Date()
-            };
-            await this.acompanhamentoProdutoDAO.insert(salvar);
-        } catch (error) {
-            console.log(error);
-        }
-    }
-
     async gerarId() {
         try {
             const id = await this.buscarUltimoId();
