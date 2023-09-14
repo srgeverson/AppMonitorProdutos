@@ -4,7 +4,6 @@ import { ListItem, Icon, Input, Button } from '@rneui/themed';
 import { rotas } from "../../../../core/Config";
 import { useNavigation } from "@react-navigation/native";
 import { Dropdown } from 'react-native-element-dropdown';
-import ProdutoService from "../../../../service/Produto";
 import CorService from "../../../../domain/service/CorService";
 import ArtigoService from "../../../../domain/service/ArtigoService";
 
@@ -42,7 +41,6 @@ const Acompanhamento = ({ route, navigation }) => {
     const [artigos, setArtigos] = useState([]);
     const [artigo, setArtigo] = useState(null);
     const [isFocus, setIsFocus] = useState(false);
-    const servide = new ProdutoService();
     const corService =  new CorService();
     const artigoService = new ArtigoService();
 
@@ -62,9 +60,9 @@ const Acompanhamento = ({ route, navigation }) => {
             const artigosSalvos = await artigoService.buscarTodos();
             if (artigosSalvos)
                 setArtigos(artigosSalvos);
-            const itensTemp = await servide.buscarAcompanhamentoTemp();
-            if (itensTemp)
-                setItens(itensTemp);
+            // const itensTemp = await servide.buscarAcompanhamentoTemp();
+            // if (itensTemp)
+            //     setItens(itensTemp);
 
         } catch (error) {
             console.log(error)
