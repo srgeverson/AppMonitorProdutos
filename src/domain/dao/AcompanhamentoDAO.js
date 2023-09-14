@@ -58,7 +58,19 @@ export default class AcompanhamentoDAO {
                 });
         });
     }
-        
+
+    selectById(id) {
+        return new Promise((resolve, reject) => {
+            SQLiteManager.select(`SELECT * FROM acompanhamentos WHERE id = ?;`, [id])
+                .then((success) => {
+                    resolve(success);
+                })
+                .catch((error) => {
+                    reject(error);
+                });
+        });
+    }    
+
     selectMax() {
         return new Promise((resolve, reject) => {
             SQLiteManager.select(`SELECT MAX(id) AS ultimoId FROM acompanhamentos WHERE 1 = 1;`, [])

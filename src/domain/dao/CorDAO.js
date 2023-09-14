@@ -25,7 +25,19 @@ export default class CorDAO {
                 });
         });
     }
-        
+
+    selectById(id) {
+        return new Promise((resolve, reject) => {
+            SQLiteManager.select(`SELECT * FROM cores WHERE id = ?;`, [id])
+                .then((success) => {
+                    resolve(success);
+                })
+                .catch((error) => {
+                    reject(error);
+                });
+        });
+    }    
+
     selectMax() {
         return new Promise((resolve, reject) => {
             SQLiteManager.select(`SELECT MAX(id) AS ultimoId FROM cores WHERE 1 = 1;`, [])

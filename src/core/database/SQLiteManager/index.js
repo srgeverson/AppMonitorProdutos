@@ -1,19 +1,14 @@
 import SQLite from 'react-native-sqlite-storage';
 import * as schema from '../schema';
 
-// const database_name = 'AppMonitorProdutos.db';
-// const database_version = '1.0';
-// const database_displayname = 'AppMonitorProdutos';
-// const database_size = 200000;
-
 class SQLiteManager {
 
     constructor() {
-        SQLite.DEBUG(false);
+        this.enabledLog = false;
+        SQLite.DEBUG(this.enabledLog);
         SQLite.enablePromise(true);
         this.type = 'SingletonDefaultExportInstance';
         this.db = null;
-        this.enabledLog = false;
         this.databaseName = 'AppMonitorProdutos.db';
         this.databaseVersion = '1.0';
         this.databaseDisplayname = 'AppMonitorProdutos';
@@ -225,6 +220,17 @@ class SQLiteManager {
                     });
             });
         });
+    }
+
+    fakeData(){
+        //Cores
+        this.insert('INSERT OR REPLACE INTO cores (id, nome) VALUES (?, ?)',[1,'Cor 1']);
+        this.insert('INSERT OR REPLACE INTO cores (id, nome) VALUES (?, ?)',[2,'Cor 2']);
+        //Artigos
+        this.insert('INSERT OR REPLACE INTO artigos (id, nome) VALUES (?, ?)',[1,'Artigo 1']);
+        this.insert('INSERT OR REPLACE INTO artigos (id, nome) VALUES (?, ?)',[2,'Artigo 2']);
+        this.insert('INSERT OR REPLACE INTO artigos (id, nome) VALUES (?, ?)',[3,'Artigo 3']);
+        this.insert('INSERT OR REPLACE INTO artigos (id, nome) VALUES (?, ?)',[4,'Artigo 4']);
     }
 }
 

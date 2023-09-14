@@ -6,12 +6,13 @@ import SQLiteManager from '../../../core/database/SQLiteManager';
 const App = () => {
 
   useEffect(() => {
-   teste();
+    iniciarDB();
   }, [])
 
-  const teste = async()=>{
-    //await SQLiteManager.dropDatabase();
+  const iniciarDB = async () => {
+    // await SQLiteManager.dropDatabase();
     await SQLiteManager.initDB();
+    //await SQLiteManager.fakeData();
   }
 
   return (

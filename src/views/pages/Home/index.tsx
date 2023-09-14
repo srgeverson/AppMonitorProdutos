@@ -5,9 +5,11 @@ import { Button } from "@rneui/base";
 import { ScrollView } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { rotas } from "../../../core/Config";
+import AcompanhamentoService from "../../../domain/service/AcompanhamentoService";
 
 const Home = () => {
     const irPara = useNavigation();
+    const acompanhamentoService = new AcompanhamentoService();
     return (
         <ScrollView>
             <View style={styles.contentView}>
@@ -37,7 +39,10 @@ const Home = () => {
                     }}
                     iconRight
                     iconContainerStyle={{ marginLeft: 10, marginRight: -10 }}
-                    onPress={() => { irPara.navigate(rotas.produtoAcompanhamento as never)}}
+                    onPress={async() => { 
+                        const idAcomp = await acompanhamentoService.gerarId();
+                        irPara.navigate(rotas.produtoAcompanhamento as never,{id:idAcomp})}
+                    }
                 />
                 <Button
                     title={<TituloListar />}

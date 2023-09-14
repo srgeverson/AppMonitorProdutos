@@ -15,22 +15,56 @@ export default class AcompanhamentoService {
         }
     }
 
-    async dadosFake() {
+    async buscarPorId(id) {
         try {
-            let id = 1;
+            const lista = await this.acompanhamentoDAO.selectById(id);
+            if (lista.rows && lista.rows.item(0) != null)
+                return lista.rows.item(0);
+            return null;
+        } catch (error) {
+            console.log(`Falha no método buscarTodos do arquivo ArtigoService -> ${new Date()} -> erro: ${error}`);
+        }
+    }
+
+    async buscarUltimoId() {
+        try {
             const ultimoId = await this.acompanhamentoDAO.selectMax();
             if (ultimoId.rows && ultimoId.rows.item(0).ultimoId != null)
-                id = ultimoId.rows.item(0).ultimoId + 1;
-            const salvar = {
-                id: id,
-                quantidadeCores: 10,
-                quantidadeArtigo: 100,
-                quantidadePecas: 1000,
-                data: new Date()
-            };
-            await this.acompanhamentoDAO.insert(salvar);
+                return ultimoId.rows.item(0).ultimoId;
+            else
+                return 0;
+        } catch (error) {
+            console.log(`Falha no método buscarTodos do arquivo AcompanhamentoProdutoService -> ${new Date()} -> erro: ${error}`);
+        }
+    }
+
+    async cadastrarSeNaoExistir(id) {
+        try {
+            const idSolicitado = await this.buscarPorId(id);
+            if (idSolicitado)
+                return idSolicitado;
+            else {
+                const salvar = {
+                    id: id,
+                    quantidadeCores: null,
+                    quantidadeArtigo: null,
+                    quantidadePecas: null,
+                    data: new Date()
+                };
+                await this.acompanhamentoDAO.insert(salvar);
+                return salvar;
+            }
         } catch (error) {
             console.log(error);
+        }
+    }
+
+    async gerarId() {
+        try {
+            const id = await this.buscarUltimoId();
+            return id + 1;
+        } catch (error) {
+            console.log(`Falha no método buscarTodos do arquivo AcompanhamentoProdutoService -> ${new Date()} -> erro: ${error}`);
         }
     }
 }

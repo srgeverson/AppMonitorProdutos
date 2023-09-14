@@ -80,11 +80,21 @@ export const Tables = {
             primary_key: false,
             default_value: null,
         },
-        produtoId: {
+        artigoId: {
             type: SupportedTypes.INTEGER,
             primary_key: false,
             default_value: null,
         },
+        corId: {
+            type: SupportedTypes.INTEGER,
+            primary_key: false,
+            default_value: null,
+        },
+        quantidade:{
+            type: SupportedTypes.INTEGER,
+            primary_key: false,
+            default_value: null,
+        }
     },
     produtos: {
         id: {
