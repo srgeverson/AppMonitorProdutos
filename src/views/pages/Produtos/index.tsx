@@ -34,7 +34,7 @@ const Produtos = ({ route, navigation }) => {
     const produtoService = new ProdutoService();
 
     useEffect(() => {
-        if (!itens)
+        if (!itens || itens.length === 0)
             carregarDados();
     }, [id, nome]);
 

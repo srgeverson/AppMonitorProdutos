@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { FlatList, SafeAreaView, StatusBar, StyleSheet, Text, View } from "react-native";
+import { FlatList, StyleSheet, } from "react-native";
 import {
     ListItem,
     Avatar,
@@ -51,7 +51,7 @@ const Acompanhamento = () => {
         buscandoItensSalvos();
     }, [])
     return (
-        <SafeAreaView style={styles.container}>
+        <>
             <FlatList
                 data={itens}
                 renderItem={({ item }) => <Item
@@ -64,15 +64,11 @@ const Acompanhamento = () => {
                 />}
                 keyExtractor={item => item.id}
             />
-        </SafeAreaView>
+        </>
     )
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        marginTop: StatusBar.currentHeight || 0,
-    },
     item: {
         backgroundColor: '#f9c2ff',
         padding: 20,

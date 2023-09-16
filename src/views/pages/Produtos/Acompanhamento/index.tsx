@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, SafeAreaView, StatusBar, FlatList, View, Alert } from 'react-native';
+import { StyleSheet, FlatList, View, Alert } from 'react-native';
 import { ListItem, Icon, Input, Button, SpeedDial } from '@rneui/themed';
 import { Dropdown } from 'react-native-element-dropdown';
 import CorService from "../../../../domain/service/CorService";
@@ -99,7 +99,7 @@ const Acompanhamento = ({ route, navigation }) => {
     }
     return (
 
-        <SafeAreaView style={styles.container}>
+        <>
             <View>
                 <View style={styles.drops}>
                     <Dropdown
@@ -204,15 +204,11 @@ const Acompanhamento = ({ route, navigation }) => {
                     }}
                 />
             </SpeedDial>
-        </SafeAreaView>
+        </>
     )
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        marginTop: StatusBar.currentHeight || 0,
-    },
     fonts: {
         marginBottom: 8,
     },

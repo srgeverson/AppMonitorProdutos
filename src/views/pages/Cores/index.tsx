@@ -34,7 +34,7 @@ const Cores = ({ route, navigation }) => {
     const corService = new CorService();
 
     useEffect(() => {
-        if (!itens)
+        if (!itens || itens.length === 0)
             carregarDados();
     }, [id, nome]);
 
