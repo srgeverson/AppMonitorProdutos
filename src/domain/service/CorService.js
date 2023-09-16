@@ -25,33 +25,4 @@ export default class CorService {
             console.log(`Falha no método buscarTodos do arquivo ArtigoService -> ${new Date()} -> erro: ${error}`);
         }
     }
-
-    async dadosFake() {
-        try {
-            let cores = [
-                { label: 'Cor 1', value: '1' },
-                { label: 'Cor 2', value: '2' },
-                { label: 'Cor 3', value: '3' },
-                { label: 'Cor 4', value: '4' },
-                { label: 'Cor 5', value: '5' },
-                { label: 'Cor 6', value: '6' },
-                { label: 'Cor 7', value: '7' },
-                { label: 'Cor 8', value: '8' },
-            ];
-            let id = 1;
-            cores.forEach(async (cor) => {
-                const ultimoId = await this.corDAO.selectMax();
-                if (ultimoId.rows && ultimoId.rows.item(0).ultimoId != null)
-                    id = ultimoId.rows.item(0).ultimoId + 1;
-                const salvar = {
-                    id: id,
-                    nome: cor.label
-                };
-                await this.corDAO.insert(salvar);
-            });
-
-        } catch (error) {
-            console.log(error);
-        }
-    }
 }

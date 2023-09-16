@@ -1,5 +1,7 @@
 export const rotas = {
+    cores: 'cores',
+    paginaInicial: 'home',
     produtoAcompanhamentos: 'acompanhamentos',
     produtoAcompanhamento: 'acompanhamento',
-    paginaInicial: 'home',
+    produtos: 'produtos',
 };

@@ -39,9 +39,10 @@ const Home = () => {
                     }}
                     iconRight
                     iconContainerStyle={{ marginLeft: 10, marginRight: -10 }}
-                    onPress={async() => { 
+                    onPress={async () => {
                         const idAcomp = await acompanhamentoService.gerarId();
-                        irPara.navigate(rotas.produtoAcompanhamento as never,{id:idAcomp})}
+                        irPara.navigate(rotas.produtoAcompanhamento, { id: idAcomp })
+                    }
                     }
                 />
                 <Button
@@ -70,7 +71,63 @@ const Home = () => {
                     }}
                     iconRight
                     iconContainerStyle={{ marginLeft: 10, marginRight: -10 }}
-                    onPress={() => { irPara.navigate(rotas.produtoAcompanhamentos as never) }}
+                    onPress={() => { irPara.navigate(rotas.produtoAcompanhamentos) }}
+                />
+                <Button
+                    title={<TituloProduto />}
+                    titleStyle={{ fontWeight: 'bold', fontSize: 18 }}
+                    linearGradientProps={{
+                        colors: ['#FF9800', '#F44336'],
+                        start: [1, 0],
+                        end: [0.2, 0],
+                    }}
+                    buttonStyle={{
+                        borderWidth: 0,
+                        borderColor: 'transparent',
+                        borderRadius: 20,
+                    }}
+                    containerStyle={{
+                        width: 250,
+                        marginHorizontal: 50,
+                        marginVertical: 10,
+                    }}
+                    icon={{
+                        name: 'arrow-right',
+                        type: 'font-awesome',
+                        size: 15,
+                        color: 'white',
+                    }}
+                    iconRight
+                    iconContainerStyle={{ marginLeft: 10, marginRight: -10 }}
+                    onPress={() => { irPara.navigate(rotas.produtos) }}
+                />
+                <Button
+                    title={<TituloCor />}
+                    titleStyle={{ fontWeight: 'bold', fontSize: 18 }}
+                    linearGradientProps={{
+                        colors: ['#FF9800', '#F44336'],
+                        start: [1, 0],
+                        end: [0.2, 0],
+                    }}
+                    buttonStyle={{
+                        borderWidth: 0,
+                        borderColor: 'transparent',
+                        borderRadius: 20,
+                    }}
+                    containerStyle={{
+                        width: 250,
+                        marginHorizontal: 50,
+                        marginVertical: 10,
+                    }}
+                    icon={{
+                        name: 'arrow-right',
+                        type: 'font-awesome',
+                        size: 15,
+                        color: 'white',
+                    }}
+                    iconRight
+                    iconContainerStyle={{ marginLeft: 10, marginRight: -10 }}
+                    onPress={() => { irPara.navigate(rotas.cores) }}
                 />
             </View>
         </ScrollView>
@@ -92,6 +149,26 @@ const TituloCadastrar = () => {
             <Text style={{ fontWeight: 'bold', fontSize: 18 }}>Nova Conferência</Text>
             <Text style={{ fontStyle: 'italic', fontSize: 12 }}>
                 Cadastrar Conferência
+            </Text>
+        </View>
+    );
+};
+const TituloCor = () => {
+    return (
+        <View style={{ flexDirection: 'column' }}>
+            <Text style={{ fontWeight: 'bold', fontSize: 18 }}>Cores</Text>
+            <Text style={{ fontStyle: 'italic', fontSize: 12 }}>
+                Cadastrar e visualizar cores
+            </Text>
+        </View>
+    );
+};
+const TituloProduto = () => {
+    return (
+        <View style={{ flexDirection: 'column' }}>
+            <Text style={{ fontWeight: 'bold', fontSize: 18 }}>Produtos</Text>
+            <Text style={{ fontStyle: 'italic', fontSize: 12 }}>
+                Cadastrar e visualizar produtos
             </Text>
         </View>
     );

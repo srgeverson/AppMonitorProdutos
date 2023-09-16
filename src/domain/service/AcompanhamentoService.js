@@ -34,7 +34,6 @@ export default class AcompanhamentoService {
                 quantidadeArtigo,
                 quantidadePecas,
             };
-            // console.log(objetoAtualizado);
             await this.acompanhamentoDAO.updateById(objetoAtualizado);
             return objetoAtualizado;
         } catch (error) {
