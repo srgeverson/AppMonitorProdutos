@@ -1,18 +1,6 @@
 import SQLiteManager from "../../core/database/SQLiteManager";
 
 export default class ProdutoDAO {
-
-    insert(objeto) {
-        return new Promise((resolve, reject) => {
-            SQLiteManager.insert(`INSERT INTO produtos(id, nome) VALUES (?, ?);`, [objeto.id, objeto.nome])
-                .then((success) => {
-                    resolve(success);
-                })
-                .catch((error) => {
-                    reject(error);
-                });
-        });
-    }
     
     insertOrReplace(objeto) {
         return new Promise((resolve, reject) => {
@@ -29,6 +17,7 @@ export default class ProdutoDAO {
                 });
         });
     }
+
     selectAll() {
         return new Promise((resolve, reject) => {
             SQLiteManager.select(`SELECT * FROM produtos WHERE 1 = 1;`, [])

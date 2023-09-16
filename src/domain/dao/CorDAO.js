@@ -1,10 +1,14 @@
 import SQLiteManager from "../../core/database/SQLiteManager";
 
 export default class CorDAO {
-
-    insert(objeto) {
+    
+    insertOrReplace(objeto) {
         return new Promise((resolve, reject) => {
-            SQLiteManager.insert(`INSERT INTO cores(id, nome) VALUES (?, ?);`, [objeto.id, objeto.nome])
+            SQLiteManager.insert('INSERT OR REPLACE INTO cores (id, nome) VALUES (?, ?)',
+                [
+                    objeto.id ? objeto.id : null,
+                    objeto.nome ? objeto.nome : null,
+                ])
                 .then((success) => {
                     resolve(success);
                 })

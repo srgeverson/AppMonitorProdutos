@@ -9,6 +9,7 @@ import { rotas } from "../Config";
 import Acompanhamento from "../../views/pages/Produtos/Acompanhamento";
 import Acompanhamentos from "../../views/pages/Produtos/Acompanhamentos";
 import Produtos from "../../views/pages/Produtos";
+import Cores from "../../views/pages/Cores";
 
 const Rotas = () => {
     return (
@@ -21,7 +22,7 @@ const Rotas = () => {
                     headerStyle: { backgroundColor: 'tomato' },
                 }}
             >
-                <Stack.Screen name={rotas.cores} component={Acompanhamentos}
+                <Stack.Screen name={rotas.cores} component={Cores}
                     options={{
                         title: 'Cores',
                     }}

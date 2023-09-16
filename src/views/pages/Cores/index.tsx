@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { StyleSheet, FlatList, View } from 'react-native';
 import { ListItem, Icon, Input, Button } from '@rneui/themed';
-import ProdutoService from "../../../domain/service/ProdutoService";
+import CorService from "../../../domain/service/CorService";
 
-type ItemProps = { id: string, nome: string, produto: string, quantidade: number | undefined, selecionar: Function };
+type ItemProps = { id: string, nome: string, cor: string, quantidade: number | undefined, selecionar: Function };
 
-const Item = ({ id, nome, produto, quantidade, selecionar }: ItemProps) => (
+const Item = ({ id, nome, cor, quantidade, selecionar }: ItemProps) => (
 
     <ListItem key={id}
         bottomDivider
@@ -17,21 +17,21 @@ const Item = ({ id, nome, produto, quantidade, selecionar }: ItemProps) => (
                 {`${nome}`}
             </ListItem.Title>
         </ListItem.Content>
-        {produto && <ListItem.Content right>
+        {cor && <ListItem.Content right>
             <ListItem.Title right style={{ color: 'green' }}>
-                {`${produto}`}
+                {`${cor}`}
             </ListItem.Title>
             <ListItem.Subtitle right>{`${quantidade} peças`}</ListItem.Subtitle>
         </ListItem.Content>}
     </ListItem>
 );
 
-const Produtos = ({ route, navigation }) => {
+const Cores = ({ route, navigation }) => {
     const [carregando, setCarregando] = useState(false);
     const [itens, setItens] = useState([]);
     const [id, setId] = useState(undefined);
     const [nome, setNome] = useState(undefined);
-    const produtoService = new ProdutoService();
+    const corService = new CorService();
 
     useEffect(() => {
         if (!itens)
@@ -41,9 +41,9 @@ const Produtos = ({ route, navigation }) => {
     const carregarDados = async () => {
         try {
             setCarregando(true);
-            const produtosSalvas = await produtoService.buscarTodos();
-            if (produtosSalvas)
-                setItens(produtosSalvas);
+            const coresSalvas = await corService.buscarTodos();
+            if (coresSalvas)
+                setItens(coresSalvas);
         } catch (error) {
             console.log(error);
         } finally {
@@ -55,11 +55,11 @@ const Produtos = ({ route, navigation }) => {
         try {
             setCarregando(true);
             if (!id) {
-                const idNovo = await produtoService.gerarId();
+                const idNovo = await corService.gerarId();
                 setId(idNovo);
             }
-            const salvarItem = await produtoService.salvar({ id, nome });
-            const itensLocal = await produtoService.buscarTodos();
+            const salvarItem = await corService.salvar({ id, nome });
+            const itensLocal = await corService.buscarTodos();
             setItens(itensLocal);
             setId(undefined);
             setNome(undefined);
@@ -71,13 +71,12 @@ const Produtos = ({ route, navigation }) => {
     }
 
     const buscar = async (id) => {
-        const itemExistente = await produtoService.buscarPorId(id);
+        const itemExistente = await corService.buscarPorId(id);
         if (itemExistente) {
             setId(itemExistente.id);
             setNome(itemExistente.nome);
         }
     }
-
     return (
         <>
             <View>
@@ -177,4 +176,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default Produtos;
+export default Cores;
