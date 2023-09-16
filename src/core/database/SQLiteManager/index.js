@@ -107,6 +107,17 @@ class SQLiteManager {
         });
     }
 
+    fakeData(){
+        //Cores
+        this.insert('INSERT OR REPLACE INTO cores (id, nome) VALUES (?, ?)',[1,'Cor 1']);
+        this.insert('INSERT OR REPLACE INTO cores (id, nome) VALUES (?, ?)',[2,'Cor 2']);
+        //Produtos
+        this.insert('INSERT OR REPLACE INTO produtos (id, nome) VALUES (?, ?)',[1,'Produto 1']);
+        this.insert('INSERT OR REPLACE INTO produtos (id, nome) VALUES (?, ?)',[2,'Produto 2']);
+        this.insert('INSERT OR REPLACE INTO produtos (id, nome) VALUES (?, ?)',[3,'Produto 3']);
+        this.insert('INSERT OR REPLACE INTO produtos (id, nome) VALUES (?, ?)',[4,'Produto 4']);
+    }
+    
     initDB() {
         let db;
         return new Promise((resolve) => {
@@ -222,16 +233,6 @@ class SQLiteManager {
         });
     }
 
-    fakeData(){
-        //Cores
-        this.insert('INSERT OR REPLACE INTO cores (id, nome) VALUES (?, ?)',[1,'Cor 1']);
-        this.insert('INSERT OR REPLACE INTO cores (id, nome) VALUES (?, ?)',[2,'Cor 2']);
-        //Produtos
-        this.insert('INSERT OR REPLACE INTO produtos (id, nome) VALUES (?, ?)',[1,'Produto 1']);
-        this.insert('INSERT OR REPLACE INTO produtos (id, nome) VALUES (?, ?)',[2,'Produto 2']);
-        this.insert('INSERT OR REPLACE INTO produtos (id, nome) VALUES (?, ?)',[3,'Produto 3']);
-        this.insert('INSERT OR REPLACE INTO produtos (id, nome) VALUES (?, ?)',[4,'Produto 4']);
-    }
 }
 
 export default new SQLiteManager();
