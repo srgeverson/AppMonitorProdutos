@@ -16,7 +16,7 @@ export default class AcompanhamentoDAO {
 
     insert(objeto) {
         return new Promise((resolve, reject) => {
-            SQLiteManager.insert(`INSERT INTO acompanhamentos(id, quantidadeCores, quantidadeArtigo, quantidadePecas, data) VALUES (?, ?, ?, ?, ?);`, [objeto.id, objeto.quantidadeCores, objeto.quantidadeArtigo, objeto.quantidadePecas, JSON.stringify(objeto.data)])
+            SQLiteManager.insert(`INSERT INTO acompanhamentos(id, quantidadeCores, quantidadeProduto, quantidadePecas, data) VALUES (?, ?, ?, ?, ?);`, [objeto.id, objeto.quantidadeCores, objeto.quantidadeProduto, objeto.quantidadePecas, JSON.stringify(objeto.data)])
                 .then((success) => {
                     resolve(success);
                 })
@@ -62,9 +62,9 @@ export default class AcompanhamentoDAO {
     selectWithJoinById(id) {
         return new Promise((resolve, reject) => {
             SQLiteManager.select(`
-            SELECT ac.*, c.nome AS cor, ar.nome AS artigo, ap.corId, ap.artigoId, ap.quantidade FROM acompanhamentos AS ac 
+            SELECT ac.*, c.nome AS cor, ar.nome AS artigo, ap.corId, ap.produtoId, ap.quantidade FROM acompanhamentos AS ac 
             INNER JOIN cores AS c ON c.id = ap.corId 
-            INNER JOIN artigos AS ar ON ar.id = ap.artigoId 
+            INNER JOIN produtos AS ar ON ar.id = ap.produtoId 
             INNER JOIN acompanhamentoProdutos AS ap ON ap.acompanhamentoId = ac.id
             WHERE ac.id = ? ;`, [id])
                 .then((success) => {
@@ -102,11 +102,11 @@ export default class AcompanhamentoDAO {
 
     updateById(objeto) {
         return new Promise((resolve, reject) => {
-            SQLiteManager.update(`UPDATE acompanhamentos SET data = ?, quantidadeCores = ?, quantidadeArtigo = ?, quantidadePecas = ? WHERE (id = ?);`,
+            SQLiteManager.update(`UPDATE acompanhamentos SET data = ?, quantidadeCores = ?, quantidadeProduto = ?, quantidadePecas = ? WHERE (id = ?);`,
                 [
                     objeto.data,
                     objeto.quantidadeCores,
-                    objeto.quantidadeArtigo,
+                    objeto.quantidadeProduto,
                     objeto.quantidadePecas,
                     objeto.id,
                 ])

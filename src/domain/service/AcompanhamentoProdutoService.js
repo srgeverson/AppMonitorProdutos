@@ -47,7 +47,7 @@ export default class AcompanhamentoProdutoService {
 
     async salvar(item) {
         try {
-            const existeItem = await this.acompanhamentoProdutoDAO.selectAllByCorIdArtigoIdAcompanhamentoId(item.corId, item.artigoId, item.acompanhamentoId);
+            const existeItem = await this.acompanhamentoProdutoDAO.selectAllByCorIdProdutoIdAcompanhamentoId(item.corId, item.produtoId, item.acompanhamentoId);
             let quantidadeExistente = 0;
             let id = null;
             if (existeItem.rows && existeItem.rows.raw()) {
@@ -62,7 +62,7 @@ export default class AcompanhamentoProdutoService {
 
             const objetoAtualizado = {
                 id,
-                artigoId: item.artigoId,
+                produtoId: item.produtoId,
                 corId: item.corId,
                 acompanhamentoId: item.acompanhamentoId,
                 quantidade: parseInt(item.quantidade) + quantidadeExistente

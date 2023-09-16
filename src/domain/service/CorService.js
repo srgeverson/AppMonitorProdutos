@@ -13,7 +13,7 @@ export default class CorService {
                 return lista.rows.item(0);
             return null;
         } catch (error) {
-            console.log(`Falha no método buscarTodos do arquivo ArtigoService -> ${new Date()} -> erro: ${error}`);
+            console.log(`Falha no método buscarTodos do arquivo ProdutoService -> ${new Date()} -> erro: ${error}`);
         }
     }
 

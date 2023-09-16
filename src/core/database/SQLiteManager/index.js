@@ -226,11 +226,11 @@ class SQLiteManager {
         //Cores
         this.insert('INSERT OR REPLACE INTO cores (id, nome) VALUES (?, ?)',[1,'Cor 1']);
         this.insert('INSERT OR REPLACE INTO cores (id, nome) VALUES (?, ?)',[2,'Cor 2']);
-        //Artigos
-        this.insert('INSERT OR REPLACE INTO artigos (id, nome) VALUES (?, ?)',[1,'Artigo 1']);
-        this.insert('INSERT OR REPLACE INTO artigos (id, nome) VALUES (?, ?)',[2,'Artigo 2']);
-        this.insert('INSERT OR REPLACE INTO artigos (id, nome) VALUES (?, ?)',[3,'Artigo 3']);
-        this.insert('INSERT OR REPLACE INTO artigos (id, nome) VALUES (?, ?)',[4,'Artigo 4']);
+        //Produtos
+        this.insert('INSERT OR REPLACE INTO produtos (id, nome) VALUES (?, ?)',[1,'Produto 1']);
+        this.insert('INSERT OR REPLACE INTO produtos (id, nome) VALUES (?, ?)',[2,'Produto 2']);
+        this.insert('INSERT OR REPLACE INTO produtos (id, nome) VALUES (?, ?)',[3,'Produto 3']);
+        this.insert('INSERT OR REPLACE INTO produtos (id, nome) VALUES (?, ?)',[4,'Produto 4']);
     }
 }
 

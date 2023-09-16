@@ -16,7 +16,7 @@ export default class AcompanhamentoProdutoDAO {
 
     insert(objeto) {
         return new Promise((resolve, reject) => {
-            SQLiteManager.insert(`INSERT INTO acompanhamentoProdutos(id, corId, artigoId, quantidade, acompanhamentoId) VALUES (?, ?, ?, ?, ?);`, [objeto.id, objeto.corId, objeto.corId, objeto.quantidade, objeto.acompanhamentoId])
+            SQLiteManager.insert(`INSERT INTO acompanhamentoProdutos(id, corId, produtoId, quantidade, acompanhamentoId) VALUES (?, ?, ?, ?, ?);`, [objeto.id, objeto.corId, objeto.corId, objeto.quantidade, objeto.acompanhamentoId])
                 .then((success) => {
                     resolve(success);
                 })
@@ -28,11 +28,11 @@ export default class AcompanhamentoProdutoDAO {
 
     insertOrReplace(objeto) {
         return new Promise((resolve, reject) => {
-            SQLiteManager.insert('INSERT OR REPLACE INTO acompanhamentoProdutos (id, corId, artigoId, quantidade, acompanhamentoId) VALUES (?, ?, ?, ?, ?)',
+            SQLiteManager.insert('INSERT OR REPLACE INTO acompanhamentoProdutos (id, corId, produtoId, quantidade, acompanhamentoId) VALUES (?, ?, ?, ?, ?)',
                 [
                     objeto.id ? objeto.id : null,
                     objeto.corId ? objeto.corId : null,
-                    objeto.artigoId ? objeto.artigoId : null,
+                    objeto.produtoId ? objeto.produtoId : null,
                     objeto.quantidade ? objeto.quantidade : null,
                     objeto.acompanhamentoId ? objeto.acompanhamentoId : null
                 ])
@@ -62,7 +62,7 @@ export default class AcompanhamentoProdutoDAO {
             SQLiteManager.select(`
             SELECT ap.*, c.nome AS cor, ar.nome AS artigo FROM acompanhamentoProdutos AS ap 
             INNER JOIN cores AS c ON c.id = ap.corId 
-            INNER JOIN artigos AS ar ON ar.id = ap.artigoId 
+            INNER JOIN produtos AS ar ON ar.id = ap.produtoId 
             INNER JOIN acompanhamentos AS ac ON ac.id = ap.acompanhamentoId 
             WHERE ap.acompanhamentoId = ? ;`, [acompanhamentoId])
                 .then((success) => {
@@ -74,11 +74,11 @@ export default class AcompanhamentoProdutoDAO {
         });
     }
 
-    selectAllByCorIdArtigoIdAcompanhamentoId(corId, artigoId, acompanhamentoId) {
+    selectAllByCorIdProdutoIdAcompanhamentoId(corId, produtoId, acompanhamentoId) {
         return new Promise((resolve, reject) => {
             SQLiteManager.select(
-                `SELECT * FROM acompanhamentoProdutos WHERE corId = ? AND artigoId = ? AND acompanhamentoId = ? ;`,
-                [corId, artigoId, acompanhamentoId]
+                `SELECT * FROM acompanhamentoProdutos WHERE corId = ? AND produtoId = ? AND acompanhamentoId = ? ;`,
+                [corId, produtoId, acompanhamentoId]
             )
                 .then((success) => {
                     resolve(success);
@@ -104,9 +104,9 @@ export default class AcompanhamentoProdutoDAO {
     updateById(objeto) {
         return new Promise((resolve, reject) => {
             SQLiteManager.update(
-                `UPDATE acompanhamentoProdutos SET artigoId = ?, corId = ?, acompanhamentoId = ?, quantidade = ?  WHERE (id = ?);`,
+                `UPDATE acompanhamentoProdutos SET produtoId = ?, corId = ?, acompanhamentoId = ?, quantidade = ?  WHERE (id = ?);`,
                 [
-                    objeto.artigoId,
+                    objeto.produtoId,
                     objeto.corId,
                     objeto.acompanhamentoId,
                     objeto.quantidade,
@@ -124,10 +124,10 @@ export default class AcompanhamentoProdutoDAO {
     updateQuantidade(objeto) {
         return new Promise((resolve, reject) => {
             SQLiteManager.update(
-                `UPDATE acompanhamentoProdutos SET quantidade = ?  WHERE (artigoId = ? AND corId = ? AND acompanhamentoId = ?);`,
+                `UPDATE acompanhamentoProdutos SET quantidade = ?  WHERE (produtoId = ? AND corId = ? AND acompanhamentoId = ?);`,
                 [
                     objeto.quantidade,
-                    objeto.artigoId,
+                    objeto.produtoId,
                     objeto.corId,
                     objeto.acompanhamentoId,
                 ]

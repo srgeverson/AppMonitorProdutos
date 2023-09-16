@@ -56,10 +56,10 @@ const Acompanhamento = () => {
                 data={itens}
                 renderItem={({ item }) => <Item
                     id={item.id}
-                    nome={item.quantidadeArtigo.toString()}
+                    nome={item.quantidadeProduto.toString()}
                     subTitulo={new Date(JSON.parse(item.data)).toLocaleString([], { weekday: 'short', year: 'numeric', month: 'long', day: 'numeric' })}
                     quantidade={item.quantidadeCores}
-                    subQuantidade={item.quantidadeArtigo}
+                    subQuantidade={item.quantidadeProduto}
                     ir={() => irPara.navigate(rotas.produtoAcompanhamento as never, { id: item.id })}
                 />}
                 keyExtractor={item => item.id}

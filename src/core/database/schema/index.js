@@ -58,7 +58,7 @@ export const Tables = {
             primary_key: false,
             default_value: null,
         },
-        quantidadeArtigo: {
+        quantidadeProduto: {
             type: SupportedTypes.INTEGER,
             primary_key: false,
             default_value: null,
@@ -80,7 +80,7 @@ export const Tables = {
             primary_key: false,
             default_value: null,
         },
-        artigoId: {
+        produtoId: {
             type: SupportedTypes.INTEGER,
             primary_key: false,
             default_value: null,
@@ -97,18 +97,6 @@ export const Tables = {
         }
     },
     cores: {
-        id: {
-            type: SupportedTypes.INTEGER,
-            primary_key: true,
-            default_value: null,
-        },
-        nome: {
-            type: SupportedTypes.TEXT,
-            primary_key: false,
-            default_value: null,
-        },
-    },
-    artigos: {
         id: {
             type: SupportedTypes.INTEGER,
             primary_key: true,

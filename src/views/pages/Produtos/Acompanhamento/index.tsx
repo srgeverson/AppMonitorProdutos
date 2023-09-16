@@ -3,7 +3,7 @@ import { StyleSheet, SafeAreaView, StatusBar, FlatList, View, Alert } from 'reac
 import { ListItem, Icon, Input, Button, SpeedDial } from '@rneui/themed';
 import { Dropdown } from 'react-native-element-dropdown';
 import CorService from "../../../../domain/service/CorService";
-import ArtigoService from "../../../../domain/service/ArtigoService";
+import ProdutoService from "../../../../domain/service/ProdutoService";
 import AcompanhamentoProdutoService from "../../../../domain/service/AcompanhamentoProdutoService";
 import AcompanhamentoService from "../../../../domain/service/AcompanhamentoService";
 
@@ -34,11 +34,11 @@ const Acompanhamento = ({ route, navigation }) => {
     const [itens, setItens] = useState([]);
     const [cores, setCores] = useState([]);
     const [cor, setCor] = useState(null);
-    const [artigos, setArtigos] = useState([]);
-    const [artigo, setArtigo] = useState(null);
+    const [produtos, setProdutos] = useState([]);
+    const [artigo, setProduto] = useState(null);
     const [isFocus, setIsFocus] = useState(false);
     const corService = new CorService();
-    const artigoService = new ArtigoService();
+    const artigoService = new ProdutoService();
     const acompanhamentoProdutoService = new AcompanhamentoProdutoService();
     const acompanhamentoService = new AcompanhamentoService();
     const { id } = route.params;
@@ -56,9 +56,9 @@ const Acompanhamento = ({ route, navigation }) => {
             const coresSalvas = await corService.buscarTodos();
             if (coresSalvas)
                 setCores(coresSalvas);
-            const artigosSalvos = await artigoService.buscarTodos();
-            if (artigosSalvos)
-                setArtigos(artigosSalvos);
+            const produtosSalvos = await artigoService.buscarTodos();
+            if (produtosSalvos)
+                setProdutos(produtosSalvos);
             if (id) {
                 const itensLocal = await acompanhamentoProdutoService.buscarTodosPorIdAcompanhamento(id);
                 setItens(itensLocal);
@@ -78,7 +78,7 @@ const Acompanhamento = ({ route, navigation }) => {
             const corItem = await corService.buscarPorId(cor);
             const acompanhamentoItem = await acompanhamentoService.cadastrarSeNaoExistir(id);
             let itemParaSalvar = {
-                artigoId: artigoItem.id,
+                produtoId: artigoItem.id,
                 corId: corItem.id,
                 acompanhamentoId: acompanhamentoItem.id,
                 quantidade
@@ -108,7 +108,7 @@ const Acompanhamento = ({ route, navigation }) => {
                         selectedTextStyle={styles.selectedTextStyle}
                         inputSearchStyle={styles.inputSearchStyle}
                         iconStyle={styles.iconStyle}
-                        data={artigos}
+                        data={produtos}
                         search
                         maxHeight={300}
                         labelField="nome"
@@ -119,7 +119,7 @@ const Acompanhamento = ({ route, navigation }) => {
                         onFocus={() => setIsFocus(true)}
                         onBlur={() => setIsFocus(false)}
                         onChange={item => {
-                            setArtigo(item.id);
+                            setProduto(item.id);
                             setIsFocus(false);
                         }}
                         renderLeftIcon={() => (

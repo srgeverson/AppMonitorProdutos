@@ -11,7 +11,7 @@ export default class AcompanhamentoService {
             const existeItem = await this.acompanhamentoDAO.selectWithJoinById(id);
             let data = null;
             let quantidadeCores = 0;
-            let quantidadeArtigo = 0;
+            let quantidadeProduto = 0;
             let quantidadePecas = 0;
             if (existeItem.rows && existeItem.rows.raw()) {
                 existeItem.rows.raw().forEach((item) => {
@@ -22,16 +22,16 @@ export default class AcompanhamentoService {
                 for (key in agruparPorCor)
                     if (agruparPorCor.hasOwnProperty(key))
                         quantidadeCores++;
-                const agruparPorArtigo = this.groupBy(existeItem.rows.raw(), 'artigoId');
-                for (key in agruparPorArtigo)
-                    if (agruparPorArtigo.hasOwnProperty(key))
-                        quantidadeArtigo++;
+                const agruparPorProduto = this.groupBy(existeItem.rows.raw(), 'produtoId');
+                for (key in agruparPorProduto)
+                    if (agruparPorProduto.hasOwnProperty(key))
+                        quantidadeProduto++;
             }
             const objetoAtualizado = {
                 id,
                 data,
                 quantidadeCores,
-                quantidadeArtigo,
+                quantidadeProduto,
                 quantidadePecas,
             };
             await this.acompanhamentoDAO.updateById(objetoAtualizado);
@@ -64,7 +64,7 @@ export default class AcompanhamentoService {
                 return lista.rows.item(0);
             return null;
         } catch (error) {
-            console.log(`Falha no método buscarTodos do arquivo ArtigoService -> ${new Date()} -> erro: ${error}`);
+            console.log(`Falha no método buscarTodos do arquivo ProdutoService -> ${new Date()} -> erro: ${error}`);
         }
     }
 
@@ -89,7 +89,7 @@ export default class AcompanhamentoService {
                 const salvar = {
                     id: id,
                     quantidadeCores: null,
-                    quantidadeArtigo: null,
+                    quantidadeProduto: null,
                     quantidadePecas: null,
                     data: new Date()
                 };
