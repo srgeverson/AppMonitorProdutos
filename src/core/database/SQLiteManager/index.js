@@ -12,7 +12,7 @@ class SQLiteManager {
         this.databaseName = 'AppMonitorProdutos.db';
         this.databaseVersion = '1.0';
         this.databaseDisplayname = 'AppMonitorProdutos';
-        this.databaseSize = 200000;
+        this.databaseSize = 2000;
     }
 
     closeDatabase(db) {
@@ -35,8 +35,7 @@ class SQLiteManager {
         const createColumns = [];
         for (const key in table) {
             createColumns.push(
-                `${key} ${table[key].type.type} ${table[key].primary_key ? 'PRIMARY KEY NOT NULL' : ''
-                } default ${table[key].default_value}`,
+                `${key} ${table[key].type.type} ${table[key].primary_key ? 'PRIMARY KEY' : ''} ${table[key].primary_key ? 'NOT NULL' : `${table[key].default_value ? `NOT NULL DEFAULT ${table[key].default_value}` : 'NULL'}`}`,
             );
         }
         sql += `(${createColumns.join(', ')});`;
@@ -107,17 +106,17 @@ class SQLiteManager {
         });
     }
 
-    fakeData(){
+    fakeData() {
         //Cores
-        this.insert('INSERT OR REPLACE INTO cores (id, nome) VALUES (?, ?)',[1,'Cor 1']);
-        this.insert('INSERT OR REPLACE INTO cores (id, nome) VALUES (?, ?)',[2,'Cor 2']);
+        this.insert('INSERT OR REPLACE INTO cores (id, nome) VALUES (?, ?)', [1, 'Cor 1']);
+        this.insert('INSERT OR REPLACE INTO cores (id, nome) VALUES (?, ?)', [2, 'Cor 2']);
         //Produtos
-        this.insert('INSERT OR REPLACE INTO produtos (id, nome) VALUES (?, ?)',[1,'Produto 1']);
-        this.insert('INSERT OR REPLACE INTO produtos (id, nome) VALUES (?, ?)',[2,'Produto 2']);
-        this.insert('INSERT OR REPLACE INTO produtos (id, nome) VALUES (?, ?)',[3,'Produto 3']);
-        this.insert('INSERT OR REPLACE INTO produtos (id, nome) VALUES (?, ?)',[4,'Produto 4']);
+        this.insert('INSERT OR REPLACE INTO produtos (id, nome) VALUES (?, ?)', [1, 'Produto 1']);
+        this.insert('INSERT OR REPLACE INTO produtos (id, nome) VALUES (?, ?)', [2, 'Produto 2']);
+        this.insert('INSERT OR REPLACE INTO produtos (id, nome) VALUES (?, ?)', [3, 'Produto 3']);
+        this.insert('INSERT OR REPLACE INTO produtos (id, nome) VALUES (?, ?)', [4, 'Produto 4']);
     }
-    
+
     initDB() {
         let db;
         return new Promise((resolve) => {
@@ -209,7 +208,7 @@ class SQLiteManager {
             });
         });
     }
-    
+
     update(sql, params) {
         return new Promise((resolve) => {
             SQLite.openDatabase(
