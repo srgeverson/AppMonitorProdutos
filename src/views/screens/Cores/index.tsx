@@ -1,25 +1,25 @@
 import React, { useEffect, useState } from "react";
 import { StyleSheet, FlatList, View } from 'react-native';
-import { ListItem, Icon, Input, Button } from '@rneui/themed';
+import { ListItem, Icon, Input, Button, Dialog, Text } from '@rneui/themed';
 import CorService from "../../../domain/service/CorService";
 
-type ItemProps = { id: string, nome: string, ativo: boolean, quantidade: number | undefined, selecionar: Function };
+type ItemProps = { id: string, nome: string, ativo: boolean, selecionar: Function, ativar: Function, apagar: Function };
 
-const Item = ({ id, nome, ativo, quantidade, selecionar }: ItemProps) => (
+const Item = ({ id, nome, ativo, selecionar, ativar, apagar }: ItemProps) => (
 
     <ListItem.Swipeable
-        leftContent={(reset) => (
+        leftContent={() => (
             <Button
                 title={`${ativo ? 'Desativar' : 'Ativar'}`}
-                onPress={() => reset()}
+                onPress={() => ativar(id, !ativo)}
                 icon={<Icon name={`${ativo ? 'ban' : 'check'}`} type="font-awesome" color="white" />}
                 buttonStyle={{ minHeight: '100%', backgroundColor: `${ativo ? '#FF8000' : '#0080FF'}` }}
             />
         )}
-        rightContent={(reset) => (
+        rightContent={() => (
             <Button
                 title="Apagar"
-                onPress={() => reset()}
+                onPress={() => apagar(id)}
                 icon={<Icon name="trash" type="font-awesome" color="white" />}
                 buttonStyle={{ minHeight: '100%', backgroundColor: 'red' }}
             />
@@ -37,12 +37,16 @@ const Item = ({ id, nome, ativo, quantidade, selecionar }: ItemProps) => (
     </ListItem.Swipeable>
 );
 
-const Cores = ({ route, navigation }) => {
+const Cores = () => {
     const [carregando, setCarregando] = useState(false);
     const [itens, setItens] = useState([]);
     const [id, setId] = useState(undefined);
     const [nome, setNome] = useState(undefined);
     const corService = new CorService();
+    const [visible5, setVisible5] = useState(false);
+    const toggleDialog5 = () => {
+        setVisible5(!visible5);
+    };
 
     useEffect(() => {
         if (!itens || itens.length === 0)
@@ -81,15 +85,39 @@ const Cores = ({ route, navigation }) => {
         }
     }
 
-    const buscar = async (id) => {
+    const apagarItem = async (id: number | undefined) => {
+        const apagado = await corService.apagarPorId(id);
+        if (!apagado)
+            toggleDialog5();
+        carregarDados();
+    }
+
+    const ativarItem = async (id: number | undefined, ativo: boolean) => {
+        await corService.alterarStatusPorId(id, ativo);
+        carregarDados();
+    }
+
+    const buscar = async (id: number | undefined) => {
         const itemExistente = await corService.buscarPorId(id);
         if (itemExistente) {
             setId(itemExistente.id);
             setNome(itemExistente.nome);
         }
     }
+
     return (
         <>
+            <Dialog
+                isVisible={visible5}
+                onBackdropPress={toggleDialog5}
+            >
+                <Dialog.Title title="Atênção" />
+                <Text>O item não foi removido, pois há conferência vinculado!</Text>
+
+                <Dialog.Actions>
+                    <Dialog.Button title="CANCEL" onPress={toggleDialog5} />
+                </Dialog.Actions>
+            </Dialog>
             <View>
                 <View style={styles.drops}>
                     <Input
@@ -123,9 +151,9 @@ const Cores = ({ route, navigation }) => {
                 renderItem={({ item }) => <Item
                     id={item.id}
                     nome={item.nome}
-                    ativo={true}
-                    // produto={item.produto}
-                    // quantidade={item.quantidade}
+                    ativo={item.ativo}
+                    apagar={() => apagarItem(item.id)}
+                    ativar={() => ativarItem(item.id, !item.ativo)}
                     selecionar={() => buscar(item.id)}
                 />}
                 keyExtractor={item => item.id}

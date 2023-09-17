@@ -53,10 +53,10 @@ const Acompanhamento = ({ route, navigation }) => {
     const carregarDados = async () => {
         try {
             setCarregando(true);
-            const coresSalvas = await corService.buscarTodos();
+            const coresSalvas = await corService.buscarTodosAtivos();
             if (coresSalvas)
                 setCores(coresSalvas);
-            const produtosSalvos = await artigoService.buscarTodos();
+            const produtosSalvos = await artigoService.buscarTodosAtivos();
             if (produtosSalvos)
                 setProdutos(produtosSalvos);
             if (id) {

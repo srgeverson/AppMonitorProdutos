@@ -67,6 +67,11 @@ export const Tables = {
             type: SupportedTypes.INTEGER,
             primary_key: false,
             default_value: null,
+        },
+        ativo: {
+            type: SupportedTypes.BOOLEAN,
+            primary_key: false,
+            default_value: null,
         }
     },
     acompanhamentoProdutos: {
@@ -90,8 +95,13 @@ export const Tables = {
             primary_key: false,
             default_value: null,
         },
-        quantidade:{
+        quantidade: {
             type: SupportedTypes.INTEGER,
+            primary_key: false,
+            default_value: null,
+        },
+        ativo: {
+            type: SupportedTypes.BOOLEAN,
             primary_key: false,
             default_value: null,
         }
@@ -107,6 +117,11 @@ export const Tables = {
             primary_key: false,
             default_value: null,
         },
+        ativo: {
+            type: SupportedTypes.BOOLEAN,
+            primary_key: false,
+            default_value: null,
+        },
     },
     produtos: {
         id: {
@@ -116,6 +131,11 @@ export const Tables = {
         },
         nome: {
             type: SupportedTypes.TEXT,
+            primary_key: false,
+            default_value: null,
+        },
+        ativo: {
+            type: SupportedTypes.BOOLEAN,
             primary_key: false,
             default_value: null,
         },

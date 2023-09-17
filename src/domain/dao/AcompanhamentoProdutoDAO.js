@@ -16,7 +16,7 @@ export default class AcompanhamentoProdutoDAO {
 
     insert(objeto) {
         return new Promise((resolve, reject) => {
-            SQLiteManager.insert(`INSERT INTO acompanhamentoProdutos(id, corId, produtoId, quantidade, acompanhamentoId) VALUES (?, ?, ?, ?, ?);`, [objeto.id, objeto.corId, objeto.corId, objeto.quantidade, objeto.acompanhamentoId])
+            SQLiteManager.insert(`INSERT INTO acompanhamentoProdutos(id, corId, produtoId, quantidade, acompanhamentoId, ativo) VALUES (?, ?, ?, ?, ?, ?);`, [objeto.id, objeto.corId, objeto.corId, objeto.quantidade, objeto.acompanhamentoId, true])
                 .then((success) => {
                     resolve(success);
                 })
@@ -28,13 +28,14 @@ export default class AcompanhamentoProdutoDAO {
 
     insertOrReplace(objeto) {
         return new Promise((resolve, reject) => {
-            SQLiteManager.insert('INSERT OR REPLACE INTO acompanhamentoProdutos (id, corId, produtoId, quantidade, acompanhamentoId) VALUES (?, ?, ?, ?, ?)',
+            SQLiteManager.insert('INSERT OR REPLACE INTO acompanhamentoProdutos (id, corId, produtoId, quantidade, acompanhamentoId, ativo) VALUES (?, ?, ?, ?, ?, ?)',
                 [
                     objeto.id ? objeto.id : null,
                     objeto.corId ? objeto.corId : null,
                     objeto.produtoId ? objeto.produtoId : null,
                     objeto.quantidade ? objeto.quantidade : null,
-                    objeto.acompanhamentoId ? objeto.acompanhamentoId : null
+                    objeto.acompanhamentoId ? objeto.acompanhamentoId : null,
+                    objeto.ativo ? objeto.ativo : true
                 ])
                 .then((success) => {
                     resolve(success);
@@ -48,6 +49,18 @@ export default class AcompanhamentoProdutoDAO {
     selectAll() {
         return new Promise((resolve, reject) => {
             SQLiteManager.select(`SELECT * FROM acompanhamentoProdutos WHERE 1 = 1;`, [])
+                .then((success) => {
+                    resolve(success);
+                })
+                .catch((error) => {
+                    reject(error);
+                });
+        });
+    }    
+
+    selectAllAtivo() {
+        return new Promise((resolve, reject) => {
+            SQLiteManager.select(`SELECT * FROM acompanhamentoProdutos WHERE ativo = 1;`, [])
                 .then((success) => {
                     resolve(success);
                 })

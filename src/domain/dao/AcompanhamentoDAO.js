@@ -16,7 +16,7 @@ export default class AcompanhamentoDAO {
 
     insert(objeto) {
         return new Promise((resolve, reject) => {
-            SQLiteManager.insert(`INSERT INTO acompanhamentos(id, quantidadeCores, quantidadeProduto, quantidadePecas, data) VALUES (?, ?, ?, ?, ?);`, [objeto.id, objeto.quantidadeCores, objeto.quantidadeProduto, objeto.quantidadePecas, JSON.stringify(objeto.data)])
+            SQLiteManager.insert(`INSERT INTO acompanhamentos(id, quantidadeCores, quantidadeProduto, quantidadePecas, data, ativo) VALUES (?, ?, ?, ?, ?, ?);`, [objeto.id, objeto.quantidadeCores, objeto.quantidadeProduto, objeto.quantidadePecas, JSON.stringify(objeto.data), 1])
                 .then((success) => {
                     resolve(success);
                 })
@@ -28,7 +28,7 @@ export default class AcompanhamentoDAO {
     
     insertOrReplace(objeto) {
         return new Promise((resolve, reject) => {
-            SQLiteManager.insert('INSERT OR REPLACE INTO acompanhamentos (ativo, criticas, id, idLocal, estadosId, nome, versao) VALUES (?, ?, ?, ?, ?, ?, ?)',
+            SQLiteManager.insert('INSERT OR REPLACE INTO acompanhamentos (id, quantidadeCores, quantidadeProduto, quantidadePecas, data, ativo) VALUES (?, ?, ?, ?, ?, ?)',
                 [
                     objeto.ativo ? objeto.ativo : false,
                     objeto.criticas ? objeto.criticas : null,
@@ -37,6 +37,7 @@ export default class AcompanhamentoDAO {
                     objeto.estadosId ? objeto.estadosId : null,
                     objeto.nome ? objeto.nome : null,
                     objeto.versao ? objeto.versao : null,
+                    objeto.ativo ? objeto.ativo : true,
                 ])
                 .then((success) => {
                     resolve(success);
@@ -59,14 +60,9 @@ export default class AcompanhamentoDAO {
         });
     }
 
-    selectWithJoinById(id) {
+    selectAllAtivo() {
         return new Promise((resolve, reject) => {
-            SQLiteManager.select(`
-            SELECT ac.*, c.nome AS cor, ar.nome AS artigo, ap.corId, ap.produtoId, ap.quantidade FROM acompanhamentos AS ac 
-            INNER JOIN cores AS c ON c.id = ap.corId 
-            INNER JOIN produtos AS ar ON ar.id = ap.produtoId 
-            INNER JOIN acompanhamentoProdutos AS ap ON ap.acompanhamentoId = ac.id
-            WHERE ac.id = ? ;`, [id])
+            SQLiteManager.select(`SELECT * FROM acompanhamentos WHERE ativo = 1;`, [])
                 .then((success) => {
                     resolve(success);
                 })
@@ -91,6 +87,23 @@ export default class AcompanhamentoDAO {
     selectMax() {
         return new Promise((resolve, reject) => {
             SQLiteManager.select(`SELECT MAX(id) AS ultimoId FROM acompanhamentos WHERE 1 = 1;`, [])
+                .then((success) => {
+                    resolve(success);
+                })
+                .catch((error) => {
+                    reject(error);
+                });
+        });
+    }
+
+    selectWithJoinById(id) {
+        return new Promise((resolve, reject) => {
+            SQLiteManager.select(`
+            SELECT ac.*, c.nome AS cor, ar.nome AS artigo, ap.corId, ap.produtoId, ap.quantidade FROM acompanhamentos AS ac 
+            INNER JOIN cores AS c ON c.id = ap.corId 
+            INNER JOIN produtos AS ar ON ar.id = ap.produtoId 
+            INNER JOIN acompanhamentoProdutos AS ap ON ap.acompanhamentoId = ac.id
+            WHERE ac.id = ? ;`, [id])
                 .then((success) => {
                     resolve(success);
                 })

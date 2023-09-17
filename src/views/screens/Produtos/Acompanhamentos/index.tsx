@@ -2,13 +2,7 @@ import React, { useEffect, useState } from "react";
 import { FlatList, StyleSheet, } from "react-native";
 import {
     ListItem,
-    Avatar,
     Icon,
-    Badge,
-    ListItemProps,
-    Button,
-    Switch,
-    lightColors
 } from '@rneui/themed';
 import { useNavigation } from "@react-navigation/native";
 import { rotas } from "../../../../core/Config";

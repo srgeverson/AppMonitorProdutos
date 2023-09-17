@@ -26,6 +26,15 @@ export default class ProdutoService {
         }
     }
     
+    async buscarTodosAtivos() {
+        try {
+            const lista = await this.produtoDAO.selectAllAtivo();
+            return lista.rows.raw();
+        } catch (error) {
+            console.log(`Falha no método buscarTodosAtivos do arquivo ProdutoService -> ${new Date()} -> erro: ${error}`);
+        }
+    }
+
     async buscarUltimoId() {
         try {
             const ultimoId = await this.produtoDAO.selectMax();

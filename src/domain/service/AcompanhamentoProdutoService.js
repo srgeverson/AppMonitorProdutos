@@ -15,6 +15,15 @@ export default class AcompanhamentoProdutoService {
         }
     }
 
+    async buscarTodosAtivos() {
+        try {
+            const lista = await this.acompanhamentoProdutoDAO.selectAllAtivo();
+            return lista.rows.raw();
+        } catch (error) {
+            console.log(`Falha no método buscarTodosAtivos do arquivo AcompanhamentoProdutoService -> ${new Date()} -> erro: ${error}`);
+        }
+    }
+
     async buscarTodosPorIdAcompanhamento(idAcompanhamento) {
         try {
             const lista = await this.acompanhamentoProdutoDAO.selectWithJoinByIdAcompanhamento(idAcompanhamento);

@@ -57,6 +57,15 @@ export default class AcompanhamentoService {
         }
     }
 
+    async buscarTodosAtivos() {
+        try {
+            const lista = await this.acompanhamentoDAO.selectAllAtivo();
+            return lista.rows.raw();
+        } catch (error) {
+            console.log(`Falha no método buscarTodosAtivos do arquivo AcompanhamentoService -> ${new Date()} -> erro: ${error}`);
+        }
+    }
+
     async buscarPorId(id) {
         try {
             const lista = await this.acompanhamentoDAO.selectById(id);

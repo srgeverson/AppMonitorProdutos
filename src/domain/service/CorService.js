@@ -6,6 +6,24 @@ export default class CorService {
         this.corDAO = new CorDAO();
     }
 
+    async alterarStatusPorId(id, status) {
+        try {
+            const deletado = await this.corDAO.updateAtivoById({ id, ativo: status });
+            return deletado.rowsAffected > 0;
+        } catch (error) {
+            console.log(`Falha no método alterarStatusPorId do arquivo ProdutoService -> ${new Date()} -> erro: ${error}`);
+        }
+    }
+
+    async apagarPorId(id) {
+        try {
+            const deletado = await this.corDAO.deleteById(id);
+            return deletado.rowsAffected > 0;
+        } catch (error) {
+            console.log(`Falha no método apagarPorId do arquivo ProdutoService -> ${new Date()} -> erro: ${error}`);
+        }
+    }
+
     async buscarPorId(id) {
         try {
             const lista = await this.corDAO.selectById(id);
@@ -25,6 +43,15 @@ export default class CorService {
             console.log(`Falha no método buscarTodos do arquivo CorService -> ${new Date()} -> erro: ${error}`);
         }
     }
+
+    async buscarTodosAtivos() {
+        try {
+            const lista = await this.corDAO.selectAllAtivo();
+            return lista.rows.raw();
+        } catch (error) {
+            console.log(`Falha no método buscarTodosAtivos do arquivo CorService -> ${new Date()} -> erro: ${error}`);
+        }
+    }    
     
     async buscarUltimoId() {
         try {
