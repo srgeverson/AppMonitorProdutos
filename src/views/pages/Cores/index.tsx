@@ -3,11 +3,28 @@ import { StyleSheet, FlatList, View } from 'react-native';
 import { ListItem, Icon, Input, Button } from '@rneui/themed';
 import CorService from "../../../domain/service/CorService";
 
-type ItemProps = { id: string, nome: string, cor: string, quantidade: number | undefined, selecionar: Function };
+type ItemProps = { id: string, nome: string, ativo: boolean, quantidade: number | undefined, selecionar: Function };
 
-const Item = ({ id, nome, cor, quantidade, selecionar }: ItemProps) => (
+const Item = ({ id, nome, ativo, quantidade, selecionar }: ItemProps) => (
 
-    <ListItem key={id}
+    <ListItem.Swipeable
+        leftContent={(reset) => (
+            <Button
+                title={`${ativo ? 'Desativar' : 'Ativar'}`}
+                onPress={() => reset()}
+                icon={<Icon name={`${ativo ? 'ban' : 'check'}`} type="font-awesome" color="white" />}
+                buttonStyle={{ minHeight: '100%', backgroundColor: `${ativo ? '#FF8000' : '#0080FF'}` }}
+            />
+        )}
+        rightContent={(reset) => (
+            <Button
+                title="Apagar"
+                onPress={() => reset()}
+                icon={<Icon name="trash" type="font-awesome" color="white" />}
+                buttonStyle={{ minHeight: '100%', backgroundColor: 'red' }}
+            />
+        )}
+        key={id}
         bottomDivider
         onPress={selecionar}
     >
@@ -17,13 +34,7 @@ const Item = ({ id, nome, cor, quantidade, selecionar }: ItemProps) => (
                 {`${nome}`}
             </ListItem.Title>
         </ListItem.Content>
-        {cor && <ListItem.Content right>
-            <ListItem.Title right style={{ color: 'green' }}>
-                {`${cor}`}
-            </ListItem.Title>
-            <ListItem.Subtitle right>{`${quantidade} peças`}</ListItem.Subtitle>
-        </ListItem.Content>}
-    </ListItem>
+    </ListItem.Swipeable>
 );
 
 const Cores = ({ route, navigation }) => {
@@ -112,6 +123,7 @@ const Cores = ({ route, navigation }) => {
                 renderItem={({ item }) => <Item
                     id={item.id}
                     nome={item.nome}
+                    ativo={true}
                     // produto={item.produto}
                     // quantidade={item.quantidade}
                     selecionar={() => buscar(item.id)}
