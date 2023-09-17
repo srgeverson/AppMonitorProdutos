@@ -4,12 +4,12 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 const Stack = createNativeStackNavigator();
 
-import Home from '../../views/pages/Home';
+import Home from '../../views/screens/Home';
 import { rotas } from "../Config";
-import Acompanhamento from "../../views/pages/Produtos/Acompanhamento";
-import Acompanhamentos from "../../views/pages/Produtos/Acompanhamentos";
-import Produtos from "../../views/pages/Produtos";
-import Cores from "../../views/pages/Cores";
+import Acompanhamento from "../../views/screens/Produtos/Acompanhamento";
+import Acompanhamentos from "../../views/screens/Produtos/Acompanhamentos";
+import Produtos from "../../views/screens/Produtos";
+import Cores from "../../views/screens/Cores";
 
 const Rotas = () => {
     return (
