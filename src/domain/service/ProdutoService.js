@@ -6,6 +6,24 @@ export default class ProdutoService {
         this.produtoDAO = new ProdutoDAO();
     }
 
+    async alterarStatusPorId(id, status) {
+        try {
+            const alterado = await this.produtoDAO.updateAtivoById({ id, ativo: status });
+            return alterado.rowsAffected > 0;
+        } catch (error) {
+            console.log(`Falha no método alterarStatusPorId do arquivo ProdutoService -> ${new Date()} -> erro: ${error}`);
+        }
+    }
+
+    async apagarPorId(id) {
+        try {
+            const deletado = await this.produtoDAO.deleteById(id);
+            return deletado.rowsAffected > 0;
+        } catch (error) {
+            console.log(`Falha no método apagarPorId do arquivo ProdutoService -> ${new Date()} -> erro: ${error}`);
+        }
+    }
+
     async buscarPorId(id) {
         try {
             const lista = await this.produtoDAO.selectById(id);

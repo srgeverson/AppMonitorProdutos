@@ -1,6 +1,18 @@
 import SQLiteManager from "../../core/database/SQLiteManager";
 
 export default class ProdutoDAO {
+
+    deleteById(id) {
+        return new Promise((resolve, reject) => {
+            SQLiteManager.delete(`DELETE FROM produtos AS p WHERE (p.id = ? AND NOT EXISTS(SELECT 1 FROM acompanhamentoProdutos AS ap WHERE ap.produtoId = p.id));`, [id])
+                .then((success) => {
+                    resolve(success);
+                })
+                .catch((error) => {
+                    reject(error);
+                });
+        });
+    }
     
     insertOrReplace(objeto) {
         return new Promise((resolve, reject) => {
@@ -66,4 +78,22 @@ export default class ProdutoDAO {
                 });
         });
     }
+    
+    updateAtivoById(objeto) {
+        return new Promise((resolve, reject) => {
+            SQLiteManager.update(
+                `UPDATE produtos SET ativo = ?  WHERE (id = ?);`,
+                [
+                    objeto.ativo,
+                    objeto.id,
+                ]
+            )
+                .then((success) => {
+                    resolve(success);
+                })
+                .catch((error) => {
+                    reject(error);
+                });
+        });
+    }    
 }

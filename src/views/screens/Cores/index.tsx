@@ -26,7 +26,7 @@ const Item = ({ id, nome, ativo, selecionar, ativar, apagar }: ItemProps) => (
         )}
         key={id}
         bottomDivider
-        onPress={selecionar}
+        onPress={()=>selecionar(id)}
     >
         <Icon name="list-ol" type="font-awesome" color="blue" />
         <ListItem.Content>

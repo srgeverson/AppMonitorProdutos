@@ -1,15 +1,31 @@
 import React, { useEffect, useState } from "react";
 import { StyleSheet, FlatList, View } from 'react-native';
-import { ListItem, Icon, Input, Button } from '@rneui/themed';
+import { ListItem, Icon, Input, Button, Dialog, Text } from '@rneui/themed';
 import ProdutoService from "../../../domain/service/ProdutoService";
 
-type ItemProps = { id: string, nome: string, produto: string, quantidade: number | undefined, selecionar: Function };
+type ItemProps = { id: string, nome: string, ativo: boolean, selecionar: Function, ativar: Function, apagar: Function };
 
-const Item = ({ id, nome, produto, quantidade, selecionar }: ItemProps) => (
+const Item = ({ id, nome, ativo, selecionar, ativar, apagar }: ItemProps) => (
 
-    <ListItem key={id}
+    <ListItem.Swipeable
+        leftContent={() => (
+            <Button
+                title={`${ativo ? 'Desativar' : 'Ativar'}`}
+                onPress={() => ativar(id, !ativo)}
+                icon={<Icon name={`${ativo ? 'ban' : 'check'}`} type="font-awesome" color="white" />}
+                buttonStyle={{ minHeight: '100%', backgroundColor: `${ativo ? '#FF8000' : '#0080FF'}` }}
+            />
+        )}
+        rightContent={() => (
+            <Button
+                title="Apagar"
+                onPress={() => apagar(id)}
+                icon={<Icon name="trash" type="font-awesome" color="white" />}
+                buttonStyle={{ minHeight: '100%', backgroundColor: 'red' }}
+            />
+        )} key={id}
         bottomDivider
-        onPress={selecionar}
+        onPress={() => selecionar(id)}
     >
         <Icon name="list-ol" type="font-awesome" color="blue" />
         <ListItem.Content>
@@ -17,21 +33,19 @@ const Item = ({ id, nome, produto, quantidade, selecionar }: ItemProps) => (
                 {`${nome}`}
             </ListItem.Title>
         </ListItem.Content>
-        {produto && <ListItem.Content right>
-            <ListItem.Title right style={{ color: 'green' }}>
-                {`${produto}`}
-            </ListItem.Title>
-            <ListItem.Subtitle right>{`${quantidade} peças`}</ListItem.Subtitle>
-        </ListItem.Content>}
-    </ListItem>
+    </ListItem.Swipeable>
 );
 
-const Produtos = ({ route, navigation }) => {
+const Produtos = () => {
     const [carregando, setCarregando] = useState(false);
     const [itens, setItens] = useState([]);
     const [id, setId] = useState(undefined);
     const [nome, setNome] = useState(undefined);
     const produtoService = new ProdutoService();
+    const [visible5, setVisible5] = useState(false);
+    const toggleDialog5 = () => {
+        setVisible5(!visible5);
+    };
 
     useEffect(() => {
         if (!itens || itens.length === 0)
@@ -42,6 +56,7 @@ const Produtos = ({ route, navigation }) => {
         try {
             setCarregando(true);
             const produtosSalvas = await produtoService.buscarTodos();
+            console.log(produtosSalvas)
             if (produtosSalvas)
                 setItens(produtosSalvas);
         } catch (error) {
@@ -70,7 +85,7 @@ const Produtos = ({ route, navigation }) => {
         }
     }
 
-    const buscar = async (id) => {
+    const buscar = async (id: number | undefined) => {
         const itemExistente = await produtoService.buscarPorId(id);
         if (itemExistente) {
             setId(itemExistente.id);
@@ -78,8 +93,31 @@ const Produtos = ({ route, navigation }) => {
         }
     }
 
+    const apagarItem = async (id: number | undefined) => {
+        const apagado = await produtoService.apagarPorId(id);
+        if (!apagado)
+            toggleDialog5();
+        carregarDados();
+    }
+
+    const ativarItem = async (id: number | undefined, ativo: boolean) => {
+        await produtoService.alterarStatusPorId(id, ativo);
+        carregarDados();
+    }
+
     return (
         <>
+                    <Dialog
+                isVisible={visible5}
+                onBackdropPress={toggleDialog5}
+            >
+                <Dialog.Title title="Atênção" />
+                <Text>O item não foi removido, pois há conferência vinculado!</Text>
+
+                <Dialog.Actions>
+                    <Dialog.Button title="CANCEL" onPress={toggleDialog5} />
+                </Dialog.Actions>
+            </Dialog>
             <View>
                 <View style={styles.drops}>
                     <Input
@@ -113,8 +151,9 @@ const Produtos = ({ route, navigation }) => {
                 renderItem={({ item }) => <Item
                     id={item.id}
                     nome={item.nome}
-                    // produto={item.produto}
-                    // quantidade={item.quantidade}
+                    ativo={item.ativo}
+                    apagar={() => apagarItem(item.id)}
+                    ativar={() => ativarItem(item.id, !item.ativo)}
                     selecionar={() => buscar(item.id)}
                 />}
                 keyExtractor={item => item.id}
